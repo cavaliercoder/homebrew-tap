@@ -50,8 +50,10 @@ jobs:
         if: github.event_name == 'pull_request'
 
       # Pushes to main have no PR diff to pick formulae from, so test them all.
+      # Named arguments each get a full test-bot run; --testing-formulae
+      # tests them together, like homebrew-core.
       - run: |
-          brew tap-info --json cavaliercoder/tap |
-            jq -r '.[0].formula_names[]' |
-            xargs brew test-bot --only-formulae
+          formulae=$(brew tap-info --json cavaliercoder/tap |
+            jq -r '.[0].formula_names | join(",")')
+          brew test-bot --only-formulae --testing-formulae="$formulae"
         if: github.event_name == 'push'
