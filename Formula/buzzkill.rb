@@ -14,6 +14,13 @@ class Buzzkill < Formula
     bin.install ".build/release/buzzkilld"
   end
 
+  def caveats
+    <<~EOS
+      macOS may ask to allow microphone access for buzzkilld when the service
+      first starts. buzzkilld never records; choose Don't Allow.
+    EOS
+  end
+
   service do
     run [opt_bin/"buzzkilld"]
     keep_alive true
