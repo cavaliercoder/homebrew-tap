@@ -1,8 +1,7 @@
 class Dmidecode < Formula
-  desc "Dmidecode reports information about your system's hardware."
+  desc "Reports information about your system's hardware"
   homepage "https://github.com/cavaliercoder/dmidecode-osx"
-  url "https://github.com/cavaliercoder/dmidecode-osx/archive/v3.1.tar.gz"
-  version "3.1"
+  url "https://github.com/cavaliercoder/dmidecode-osx/archive/refs/tags/v3.1.tar.gz"
   sha256 "b7ee6fe84e0e9015ac09a903fc3906c388087da504e394e07cb2cd274ba3faa1"
 
   def install
@@ -12,7 +11,7 @@ class Dmidecode < Formula
   end
 
   test do
-    system "#{bin}/dmidecode"
+    # Apple Silicon has no SMBIOS service, so don't read it.
+    assert_match version.to_s, shell_output("#{bin}/dmidecode --version")
   end
 end
-
